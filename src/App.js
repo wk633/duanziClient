@@ -15,6 +15,7 @@ class App extends Component {
                     <a href="#" className="brand-logo">My Demo Collection</a>
                 </div>
             </nav>
+
             <Duanzi className="height-100"></Duanzi>
         </div>
 

@@ -5,9 +5,8 @@ class DuanziItem extends Component {
         return (
             <div className="card cyan darken-1">
                 <div className="card-content white-text">
-                    <span className="card-title">#xxxxxxx</span>
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
+                    <span className="card-title">#{this.props.duanzi.duanziId}</span>
+                    <p>{this.props.duanzi.duanziContent}</p>
                 </div>
                 <div className="card-action">
                     <div className="row zero-margin-bottom">
@@ -15,10 +14,10 @@ class DuanziItem extends Component {
                             <a href="#">Comments</a>
                         </div>
                         <div className="col s2">
-                            <i className="fa fa-thumbs-up"></i><span>&nbsp;12</span>
+                            <i className="fa fa-thumbs-up"></i><span>&nbsp;{this.props.duanzi.commentLike}</span>
                         </div>
                         <div className="col s2">
-                            <i className="fa fa-thumbs-down"></i><span>&nbsp;1</span>
+                            <i className="fa fa-thumbs-down"></i><span>&nbsp;{this.props.duanzi.commentUnlike}</span>
                         </div>
                         <div className="col s2">
                             <i className="fa fa-heart-o"></i>
