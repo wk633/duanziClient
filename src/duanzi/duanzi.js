@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import duanziLogo from './duanziLogo.png';
 import './duanzi.css';
 import fakeData from './fakeData';
@@ -14,13 +15,26 @@ class Duanzi extends Component {
             duanzi: [],
             offSet: 0,
             loadedAll: false,
-            loading: true
+            loading: false
         }
+        this.handleScroll = this.handleScroll.bind(this);
     }
     componentDidMount() {
         console.log("component did mount");
         this.loadData();
+        this.loadData = _.debounce(this.loadData, 500);
+        window.addEventListener('scroll', this.handleScroll);
         console.log(this.state);
+    }
+    handleScroll() {
+        let scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        if (window.innerHeight + scrollY >= (document.body.offsetHeight - 50)) {
+            console.log("loading more duanzi");
+            this.setState({
+                loading: true
+            });
+            this.loadData();
+        }
     }
     loadData() {
         this.setState({
