@@ -13,7 +13,8 @@ class Duanzi extends Component {
         this.state = {
             duanzi: [],
             offSet: 0,
-            loadedAll: false
+            loadedAll: false,
+            loading: true
         }
     }
     componentDidMount() {
@@ -26,6 +27,25 @@ class Duanzi extends Component {
             duanzi: data
         })
     }
+
+    loading() {
+        return (
+            <div className="center">
+                <div className="preloader-wrapper small active">
+                    <div className="spinner-layer spinner-green-only">
+                        <div className="circle-clipper left">
+                            <div className="circle"></div>
+                        </div><div className="gap-patch">
+                        <div className="circle"></div>
+                    </div><div className="circle-clipper right">
+                        <div className="circle"></div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     renderDuanzi() {
         console.log(this.state);
         var duanziList = this.state.duanzi.map((duanzi) => {
@@ -54,8 +74,11 @@ class Duanzi extends Component {
                     </div>
 
                     {this.renderDuanzi()}
+                    {this.state.loading == true && this.loading()}
 
                 </div>
+
+
 
             </div>
         )
