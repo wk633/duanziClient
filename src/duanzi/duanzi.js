@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import duanziLogo from './duanziLogo.png';
 import './duanzi.css';
-import fakeData from './fakeData';
+
 
 import DuanziItem from './duanziItem';
 
-const data = fakeData;
+const duanziIdObj = {};
 const DUANZI_PER_PAGE = 20;
-const API_BASE = "http://localhost:4000/api/v1/duanzi/"
+const API_BASE = "http://localhost:4000/api/v1/duanzi"
 
 class Duanzi extends Component {
     constructor() {
         super();
         this.state = {
             duanzi: [],
-            offSet: 0,
             loadedAll: false,
             loading: true
         }
@@ -38,12 +37,11 @@ class Duanzi extends Component {
         }
     }
     loadData() {
-        // this.state.offSet then update this.state.offSet
         if (this.state.loadedAll == true) {
             return;
         }
 
-        let url = API_BASE + this.state.offSet;
+        let url = API_BASE;
         let request = new Request(
             encodeURI(url),
             {
@@ -60,9 +58,16 @@ class Duanzi extends Component {
                         loadedAll: true
                     });
                 }else {
+
+                    let filtered = [];
+                    for (let i = 0; i < response.length; i++) {
+                        if (!duanziIdObj.hasOwnProperty(response[i].duanziId)) {
+                            filtered.push(response[i]);
+                            duanziIdObj[response[i].duanziId] = 1;
+                        }
+                    }
                     this.setState({
-                        duanzi: this.state.duanzi.concat(response),
-                        offSet: this.state.offSet + DUANZI_PER_PAGE
+                        duanzi: this.state.duanzi.concat(filtered)
                     });
                 }
             })
