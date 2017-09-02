@@ -43,7 +43,7 @@ class Duanzi extends Component {
         }
     }
     loadData() {
-        if (this.state.loadedAll == true) {
+        if (this.state.loadedAll === true) {
             return;
         }
 
@@ -59,7 +59,7 @@ class Duanzi extends Component {
             .then(res => res.json())
             .then(response => {
                 console.log(response);
-                if (!response || response.length == 0) {
+                if (!response || response.length === 0) {
                     this.setState({
                         loadedAll: true
                     });
@@ -141,7 +141,7 @@ class Duanzi extends Component {
                     {this.renderDuanzi()}
 
 
-                    {this.state.loading == true && this.loading()}
+                    {this.state.loading === true && this.loading()}
 
                 </div>
 

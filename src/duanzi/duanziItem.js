@@ -31,7 +31,7 @@ class DuanziItem extends Component {
                 <div className="card-action">
                     <div className="row zero-margin-bottom">
                         <div className="col s6">
-                            <a href="#">Comments</a>
+                            <a href="/">Comments</a>
                         </div>
                         <div className="col s2">
                             <i className="fa fa-thumbs-up"></i><span>&nbsp;{this.props.duanzi.commentLike}</span>
