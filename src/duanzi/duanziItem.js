@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
+import './duanziItem.css';
 
 class DuanziItem extends Component {
+    constructor() {
+        super();
+        this.clickHandler = this.clickHandler.bind(this);
+
+        this.state = {
+            heartO: true
+        }
+    }
+    componentDidMount() {
+        this.setState({
+            heartO: !this.props.duanziContent.hasOwnProperty(this.props.duanzi.duanziId)
+        });
+    }
+    clickHandler() {
+        this.setState({
+            heartO: !this.state.heartO
+        });
+        this.props.favoriteHandler(this.props.duanzi.duanziId, this.state.heartO, this.props.duanzi);
+    }
     render() {
         return (
             <div className="card cyan darken-1">
@@ -19,9 +39,13 @@ class DuanziItem extends Component {
                         <div className="col s2">
                             <i className="fa fa-thumbs-down"></i><span>&nbsp;{this.props.duanzi.commentUnlike}</span>
                         </div>
-                        <div className="col s2">
-                            <i className="fa fa-heart-o"></i>
+                        <div className="col s2 heart" onClick={this.clickHandler}>
+                            {this.state.heartO && <i className="fa fa-heart-o"></i>}
+                            {!this.state.heartO && <i className="fa fa-heart"></i>}
                         </div>
+                    </div>
+                    <div className="">
+                        No Comments
                     </div>
                 </div>
             </div>

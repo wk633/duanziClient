@@ -6,9 +6,10 @@ import './duanzi.css';
 
 import DuanziItem from './duanziItem';
 
-const duanziIdObj = {};
-const DUANZI_PER_PAGE = 20;
-const API_BASE = "http://localhost:4000/api/v1/duanzi"
+var duanziIdObj = {};
+var duanziContent = {};
+var duanziOrder = [];
+const API_BASE = "http://localhost:4000/api/v1/duanzi/test"
 
 class Duanzi extends Component {
     constructor() {
@@ -19,6 +20,11 @@ class Duanzi extends Component {
             loading: true
         }
         this.handleScroll = this.handleScroll.bind(this);
+        this.favoriteHandler = this.favoriteHandler.bind(this);
+        const localFav = JSON.parse(localStorage.getItem("localFav"));
+        duanziContent = localFav != null ? localFav["content"] : {};
+        duanziOrder = localFav != null ? localFav["order"] : [];
+
     }
     componentDidMount() {
         console.log("component did mount");
@@ -63,7 +69,7 @@ class Duanzi extends Component {
                     for (let i = 0; i < response.length; i++) {
                         if (!duanziIdObj.hasOwnProperty(response[i].duanziId)) {
                             filtered.push(response[i]);
-                            duanziIdObj[response[i].duanziId] = 1;
+                            duanziIdObj[response[i].duanziId] = response[i];
                         }
                     }
                     this.setState({
@@ -91,11 +97,25 @@ class Duanzi extends Component {
         )
     }
 
+    favoriteHandler(id, add, content) {
+        if (add) {
+            console.log("add");
+            duanziOrder.unshift(id);
+            duanziContent[id] = content;
+        }else {
+            console.log("remove", id);
+            let idx = duanziOrder.indexOf(id);
+            duanziOrder.splice(idx, 1);
+            delete duanziContent[id];
+        }
+        localStorage.setItem("localFav", JSON.stringify({content: duanziContent, order: duanziOrder}));
+    }
+
     renderDuanzi() {
-        console.log(this.state);
+        console.log(duanziContent);
         var duanziList = this.state.duanzi.map((duanzi) => {
             return (
-                <DuanziItem key={duanzi.duanziId} duanzi={duanzi}></DuanziItem>
+                <DuanziItem key={duanzi.duanziId} duanzi={duanzi} favoriteHandler={this.favoriteHandler} duanziContent={duanziContent}></DuanziItem>
             )
         })
 
@@ -110,7 +130,7 @@ class Duanzi extends Component {
 
     render() {
         return (
-            <div className="duanzi row height-100 left">
+            <div className="row height-100 left">
 
 
                 <div className="col s12 m8 offset-m2 height-100">
@@ -119,6 +139,8 @@ class Duanzi extends Component {
                     </div>
 
                     {this.renderDuanzi()}
+
+
                     {this.state.loading == true && this.loading()}
 
                 </div>
