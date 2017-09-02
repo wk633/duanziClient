@@ -3,18 +3,26 @@
  */
 
 import React, {Component} from 'react';
+import duanziLogo from '../duanzi/duanziLogo.png';
 import DuanziItem from '../duanzi/duanziItem';
+
+
+var duanziContent = {};
+var duanziOrder = [];
 
 class Favorite extends Component {
     constructor() {
         super();
+        const localFav = JSON.parse(localStorage.getItem("localFav"));
+        duanziContent = localFav != null ? localFav["content"] : {};
+        duanziOrder = localFav != null ? localFav["order"] : [];
     }
 
     renderDuanzi() {
-        console.log(this.state);
-        var duanziList = this.state.duanzi.map((duanzi) => {
+
+        var duanziList = duanziOrder.map((duanziId) => {
             return (
-                <DuanziItem key={duanzi.duanziId} duanzi={duanzi}></DuanziItem>
+                <DuanziItem key={duanziId} duanzi={duanziContent[duanziId]} duanziContent={duanziContent} favoriteHandler={this.favoriteHandler}></DuanziItem>
             )
         })
 
@@ -27,6 +35,20 @@ class Favorite extends Component {
         )
     }
 
+    favoriteHandler(id, add, content) {
+        if (add) {
+            console.log("add");
+            duanziOrder.unshift(id);
+            duanziContent[id] = content;
+        }else {
+            console.log("remove", id);
+            let idx = duanziOrder.indexOf(id);
+            duanziOrder.splice(idx, 1);
+            delete duanziContent[id];
+        }
+        localStorage.setItem("localFav", JSON.stringify({content: duanziContent, order: duanziOrder}));
+    }
+
     render() {
         return (
             <div className="row height-100 left">
@@ -34,12 +56,11 @@ class Favorite extends Component {
 
                 <div className="col s12 m8 offset-m2 height-100">
                     <div className="center">
-                        {/*<img className="responsive-img" src={duanziLogo} alt=""/>*/}
+                        <img className="responsive-img" src={duanziLogo} alt=""/>
                     </div>
 
                     {this.renderDuanzi()}
 
-                    {this.state.loading == true && this.loading()}
 
                 </div>
 

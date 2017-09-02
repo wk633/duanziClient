@@ -9,6 +9,7 @@ import {
 
 import './App.css';
 import Duanzi from './duanzi/duanzi';
+import Favorite from './Favorite/Favorite';
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
                     </div>
                 </nav>
                 <Route exact path="/" component={Duanzi}/>
+                <Route path="/favorite" component={Favorite}/>
             </div>
         </Router>
 

@@ -9,7 +9,7 @@ import DuanziItem from './duanziItem';
 var duanziIdObj = {};
 var duanziContent = {};
 var duanziOrder = [];
-const API_BASE = "http://localhost:4000/api/v1/duanzi/test"
+const API_BASE = "http://localhost:4000/api/v1/duanzi/"
 
 class Duanzi extends Component {
     constructor() {
