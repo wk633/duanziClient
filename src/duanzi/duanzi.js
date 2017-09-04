@@ -3,7 +3,7 @@ import _ from 'lodash';
 import duanziLogo from './duanziLogo.png';
 import './duanzi.css';
 import config from '../config';
-
+import 'whatwg-fetch';
 
 import DuanziItem from './duanziItem';
 
@@ -49,14 +49,14 @@ class Duanzi extends Component {
         }
 
         let url = API_BASE;
-        let request = new Request(
-            encodeURI(url),
-            {
-                method: 'GET',
-                cache: false
-            }
-        );
-        fetch(request)
+        // let request = new Request(
+        //     url,
+        //     {
+        //         method: 'GET',
+        //         cache: false
+        //     }
+        // );
+        fetch(url)
             .then(res => res.json())
             .then(response => {
                 // console.log(response);

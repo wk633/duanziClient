@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './duanziItem.css';
 import CommentItem from './commentItem';
 import config from '../config';
-
+import 'whatwg-fetch';
 const urlBase = config.apiBase + "tucao/";
 
 class DuanziItem extends Component {
@@ -33,14 +33,14 @@ class DuanziItem extends Component {
                 open: true
             });
             let url = urlBase + this.props.duanzi.duanziId;
-            let request = new Request(
-                encodeURI(url),
-                {
-                    method: 'GET',
-                        cache: false
-                }
-            );
-            fetch(request)
+            // let request = new Request(
+            //     encodeURI(url),
+            //     {
+            //         method: 'GET',
+            //             cache: false
+            //     }
+            // );
+            fetch(url)
                 .then(res => res.json())
                 .then(response => {
                     this.setState({
