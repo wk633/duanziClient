@@ -1,3 +1,9 @@
 .heart {
     cursor: pointer;
 }
+.comment-btn {
+    cursor: pointer;
+}
+.comment-btn-container {
+    padding-left: 0px !important;
+}

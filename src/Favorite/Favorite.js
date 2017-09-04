@@ -24,7 +24,7 @@ class Favorite extends Component {
             return (
                 <DuanziItem key={duanziId} duanzi={duanziContent[duanziId]} duanziContent={duanziContent} favoriteHandler={this.favoriteHandler}></DuanziItem>
             )
-        })
+        });
 
         return (
             <div className="row">

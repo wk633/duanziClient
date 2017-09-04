@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './duanziItem.css';
 import CommentItem from './commentItem';
+import config from '../config';
+
+const urlBase = config.apiBase + "tucao/";
 
 class DuanziItem extends Component {
     constructor() {
@@ -28,8 +31,8 @@ class DuanziItem extends Component {
         if (!this.state.open) {
             this.setState({
                 open: true
-            })
-            let url = "http://localhost:4000/api/v1/tucao/" + this.props.duanzi.duanziId;
+            });
+            let url = urlBase + this.props.duanzi.duanziId;
             let request = new Request(
                 encodeURI(url),
                 {
@@ -62,23 +65,23 @@ class DuanziItem extends Component {
         }
     }
     renderComment() {
-        if (this.state.comments.length === 0) {
+        if (this.state.comments.length === 0 || this.state.comments[0].tucao.length === 0) {
             return (
                 <div>No Comment</div>
             )
         }else {
-            console.log(this.state.comments);
+            // console.log(this.state.comments);
             var commentList = this.state.comments[0].tucao.map(tucao => {
-                console.log(tucao);
+                // console.log(tucao);
                 return (
                     <CommentItem key={tucao.comment_ID} comment={tucao}></CommentItem>
                 )
-            })
+            });
             return commentList;
         }
     }
     render() {
-        let commentContainerStyle = {height: this.countHeight()};
+        let commentContainerStyle = {height: this.countHeight(), marginTop: 10};
         let progressStyle = {
             backgroundColor: "#00acc1",
             visibility: this.state.loading && this.state.open ? "visible" : "hidden"
@@ -87,17 +90,23 @@ class DuanziItem extends Component {
         let indeterminate = {
             backgroundColor: "#f48fb1"
         };
+        let whiteComment = {
+            color: "#fafafa"
+        }
+        let zeroPaddingBottom={
+            paddingBottom: 0
+        }
 
         return (
-            <div className="card cyan darken-1">
-                <div className="card-content white-text">
-                    <span className="card-title">#{this.props.duanzi.duanziId}</span>
+            <div className="card cyan lighten-2">
+                <div className="card-content">
+                    <span className="card-title">#&nbsp;{this.props.duanzi.duanziId}</span>
                     <p>{this.props.duanzi.duanziContent}</p>
                 </div>
-                <div className="card-action">
+                <div className="card-action" style={zeroPaddingBottom}>
                     <div className="row zero-margin-bottom">
-                        <div className="col s6">
-                            <a onClick={this.openComment}>Comments</a>
+                        <div className="col s6 comment-btn-container">
+                            <a style={whiteComment} className="comment-btn" onClick={this.openComment}>Comments</a>
                         </div>
                         <div className="col s2">
                             <i className="fa fa-thumbs-up"></i><span>&nbsp;{this.props.duanzi.commentLike}</span>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import duanziLogo from './duanziLogo.png';
 import './duanzi.css';
+import config from '../config';
 
 
 import DuanziItem from './duanziItem';
@@ -9,7 +10,7 @@ import DuanziItem from './duanziItem';
 var duanziIdObj = {};
 var duanziContent = {};
 var duanziOrder = [];
-const API_BASE = "http://localhost:4000/api/v1/duanzi/test"
+const API_BASE = config.apiBase + "duanzi";
 
 class Duanzi extends Component {
     constructor() {
@@ -27,15 +28,15 @@ class Duanzi extends Component {
 
     }
     componentDidMount() {
-        console.log("component did mount");
+        // console.log("component did mount");
         this.loadData();
         this.handleScroll = _.debounce(this.handleScroll, 500);
         window.addEventListener('scroll', this.handleScroll);
-        console.log(this.state);
+        // console.log(this.state);
     }
     handleScroll() {
         let scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-        if (window.innerHeight + scrollY >= (document.documentElement.scrollHeight - 50)) {
+        if (window.innerHeight + scrollY >= (document.documentElement.scrollHeight - 60)) {
             console.log(window.innerHeight, scrollY, document.documentElement.scrollHeight);
             console.log("loading more duanzi");
 
@@ -58,7 +59,7 @@ class Duanzi extends Component {
         fetch(request)
             .then(res => res.json())
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 if (!response || response.length === 0) {
                     this.setState({
                         loadedAll: true
@@ -72,6 +73,7 @@ class Duanzi extends Component {
                             duanziIdObj[response[i].duanziId] = response[i];
                         }
                     }
+                    // console.log(filtered);
                     this.setState({
                         duanzi: this.state.duanzi.concat(filtered)
                     });
@@ -80,8 +82,9 @@ class Duanzi extends Component {
     }
 
     loading() {
+        let constHeight = {height: 56};
         return (
-            <div className="center">
+            <div className="center" style={constHeight}>
                 <div className="preloader-wrapper small active">
                     <div className="spinner-layer spinner-green-only">
                         <div className="circle-clipper left">
@@ -112,7 +115,7 @@ class Duanzi extends Component {
     }
 
     renderDuanzi() {
-        console.log(duanziContent);
+        // console.log(duanziContent);
         var duanziList = this.state.duanzi.map((duanzi) => {
             return (
                 <DuanziItem key={duanzi.duanziId} duanzi={duanzi} favoriteHandler={this.favoriteHandler} duanziContent={duanziContent}></DuanziItem>
